@@ -1,12 +1,16 @@
 import math
 import random
 import pygame
+import sys
 from node import Node
 pygame.init()
 
 scale = 20
 grid = []
 
+draw_paths = False
+if len(sys.argv) > 1:
+    draw_paths = sys.argv[1] == "draw-paths"
 
 
 # ~ turns = [Node(1, 1), Node(6, 1), Node(12, 1), Node(15, 1), Node(21, 1), Node(26, 1),
@@ -69,7 +73,7 @@ class Ghost():
     def show(self, surface):
         pygame.draw.circle(surface, self.color, (self.realX, self.realY), int(scale / 1.3))
 
-        if self.path:
+        if self.path and draw_paths: # draw paths if path exists and command line arguement passed
             for i in self.path[::-1]:
                 if i.came_from:
                     pygame.draw.line(surface, self.color, (i.x * scale + scale // 2, i.y * scale + scale // 2), (i.came_from.x * scale + scale // 2, i.came_from.y * scale + scale // 2), 5)
